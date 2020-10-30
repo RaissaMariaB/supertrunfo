@@ -1,4 +1,4 @@
-package com.wcc.supertrunfo
+package com.wcc.supertrunfo.entities
 
 class Player (
     val name: String,
