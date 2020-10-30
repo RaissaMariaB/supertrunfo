@@ -8,21 +8,53 @@ class Card (
 ){
 
     val label: String = "Card ${player.name}"
-    val maxVelocity = setMaxVelocity()
+    val maxVelocity = initMaxVelocity()
     val accelerationTime = setAccelerationTime()
-    val passengers = setPassengers()
+    val passengers = initPassengers()
+    val xP = initXp()
 
     private  fun setAccelerationTime(): Int {
-        TODO("not yet implemented")
+        return 0
 
     }
 
-    private  fun setMaxVelocity(): Int{
-        TODO("not yet implemented")
+    private  fun initMaxVelocity(): Int{
+        return when( vehicule.type ) {
+           "car" -> carMaxVelocity() // aqui vai contas quando o tipo de veículo for carro
+           "motorcycle" -> motorcycleMaxVelocity()// aqui vai contas quando o tipo de veículo for moto
+           else  ->  bikeMaxVelocity()// aqui vai contas quando o tipo de veículo for bike
+
+        }
     }
 
-    private  fun setPassengers(): Int {
+    private fun bikeMaxVelocity(): Int {
+        return vehicule.maxAcceleration * driver.boldness
+    }
+
+    private fun motorcycleMaxVelocity(): Int {
+        return 1 / vehicule.weight * vehicule.maxAcceleration
+    }
+
+    private fun carMaxVelocity(): Int {
+        return if(vehicule.style == "sedã") {
+            vehicule.maxAcceleration
+        } else {
+            vehicule.maxAcceleration + 10
+        }
+    }
+
+    private  fun initPassengers(): Int {
         return vehicule.passengers * (1 + driver.defensiveDriving)
     }
+
+    private  fun initXp(): Int {
+       return when(vehicule.type) {
+           "car" -> driver.carXP
+           "motorcycle" -> driver.motorcycleXP
+           else -> driver.bikeXP
+       }
+    }
+
+
 
 }
